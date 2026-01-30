@@ -1,8 +1,8 @@
-dashboard "fedramp_20x_overview" {
-  title = "FedRAMP 20x Overview"
+dashboard "fedramp_20x_azure_overview" {
+  title = "FedRAMP 20x - Azure"
 
   tags = {
-    type      = "AWS"
+    type      = "Azure"
     framework = "FedRAMP 20x"
   }
 
@@ -102,8 +102,34 @@ dashboard "fedramp_20x_overview" {
   }
 
   container {
+    chart {
+      title = "Controls by Category (Detailed)"
+      width = 12
+      type  = "column"
+      sql   = <<-EOQ
+        select
+          'KSI-IAM (Identity & Access)' as category,
+          4 as count
+        union all
+        select 'KSI-CNA (Cloud Native Architecture)', 4
+        union all
+        select 'KSI-SVC (Service Configuration)', 2
+        union all
+        select 'KSI-MLA (Monitoring & Logging)', 1
+        union all
+        select 'KSI-INR (Incident Response)', 1
+        union all
+        select 'KSI-PIY (Policy & Inventory)', 1
+        union all
+        select 'KSI-RPL (Recovery Planning)', 1
+        order by count desc
+      EOQ
+    }
+  }
+
+  container {
     table {
-      title = "All FedRAMP 20x KSI Controls"
+      title = "All FedRAMP 20x KSI Controls - Azure"
       width = 12
       sql   = <<-EOQ
         select
